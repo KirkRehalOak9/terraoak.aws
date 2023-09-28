@@ -37,6 +37,7 @@ resource "aws_elasticache_replication_group" "sac_replication_group_redis" {
   parameter_group_name        = "default.redis7"
   port                        = 6379
   multi_az_enabled = false
+  # oak9: Design your ElastiCache Replication Group to tolerate zone failures
   automatic_failover_enabled  = true
   at_rest_encryption_enabled = true
   transit_encryption_enabled = false
