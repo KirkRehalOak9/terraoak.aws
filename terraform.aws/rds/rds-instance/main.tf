@@ -2,6 +2,7 @@
 # RDS
 # ---------------------------------------------------------------------
 resource "aws_db_instance" "sac_db_instance" {
+  # oak9: Configure event logs for RDS DB Cluster
   # oak9: Use customer-managed key for at-rest encryption
   # oak9: Define asset inventory tags
   db_name                 = "sacDatabaseName"
