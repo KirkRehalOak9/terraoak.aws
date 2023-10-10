@@ -67,7 +67,7 @@ resource "aws_s3_bucket" "sac_cloudfront_log_bucket" {
 resource "aws_s3_bucket_ownership_controls" "s3_ownership_controls_sac" {
   bucket = aws_s3_bucket.sac_cloudfront_log_bucket.id
   rule {
-    object_ownership = "ObjectWriter"
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
