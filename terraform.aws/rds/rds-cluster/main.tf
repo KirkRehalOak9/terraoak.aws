@@ -2,6 +2,8 @@
 # RDS
 # ---------------------------------------------------------------------
 resource "aws_rds_cluster" "sac_rds_cluster" {
+  # oak9: Use customer-managed key for at-rest encryption
+  # oak9: Define asset inventory tags
   cluster_identifier      = "sac-testing-rds-cluster"
   database_name           = "sacrdsdatabase"
   engine                  = "aurora-mysql"
@@ -14,7 +16,7 @@ resource "aws_rds_cluster" "sac_rds_cluster" {
   db_subnet_group_name = aws_db_subnet_group.sac_rds_subnet_group.name
   
   engine_version          = "8.0.mysql_aurora.3.03.0"
-  storage_encrypted   = false
+  storage_encrypted   = true
   iam_database_authentication_enabled = false
 }
 

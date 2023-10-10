@@ -2,6 +2,9 @@
 # RDS
 # ---------------------------------------------------------------------
 resource "aws_db_instance" "sac_db_instance" {
+  # oak9: Configure event logs for RDS DB Cluster
+  # oak9: Use customer-managed key for at-rest encryption
+  # oak9: Define asset inventory tags
   db_name                 = "sacDatabaseName"
   identifier              = "sac-testing-db-instance"
   allocated_storage       = 10
@@ -12,13 +15,13 @@ resource "aws_db_instance" "sac_db_instance" {
   skip_final_snapshot    = true
   final_snapshot_identifier = "DELETE"
   db_subnet_group_name = aws_db_subnet_group.sac_rds_subnet_group.name
-  deletion_protection     = false
+  deletion_protection     = true
 
   engine_version          = "8.0"
   iam_database_authentication_enabled = false
-  multi_az = false
+  multi_az = true
   publicly_accessible     = true
-  storage_encrypted = false
+  storage_encrypted = true
 }
 
 resource "aws_db_proxy_default_target_group" "sac_proxy_target_group" {

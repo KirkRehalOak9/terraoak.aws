@@ -43,12 +43,13 @@ resource "aws_elasticsearch_domain" "elasticshearch_domain" {
   }
 
   encrypt_at_rest {
-    enabled    = false
+    enabled    = true
     kms_key_id = ""
+  # oak9: Use customer-managed key for at-rest encryption
   }
   
   advanced_security_options {
-    enabled                        = false
+    enabled                        = true
     internal_user_database_enabled = true
     
     master_user_options {
@@ -80,6 +81,7 @@ resource "aws_elasticsearch_domain" "elasticshearch_domain" {
   }
 
   tags = {
+      # oak9: Define asset inventory tags
       Domain = local.elk_domain
   }
 }

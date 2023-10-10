@@ -2,6 +2,9 @@
 # CloudFront
 # ---------------------------------------------------------------------
 resource "aws_cloudfront_distribution" "sac_cloudfront_distribution" {
+    # oak9: Configure a default root object
+    # oak9: Configure access logs for Cloud Front
+    # oak9: Define asset inventory tags
     enabled = true
     aliases = ["www.acorncorp.com", "acorncorp.com"]
     web_acl_id = aws_wafv2_web_acl.sac_cloudfront_web_acl_.id
@@ -59,6 +62,7 @@ resource "aws_s3_bucket" "sac_cloudfront_log_bucket" {
   acl = "private"
 
   tags = {
+    # oak9: Define asset inventory tags
     Name        = "My bucket"
     Environment = "Dev"
   }
@@ -67,7 +71,7 @@ resource "aws_s3_bucket" "sac_cloudfront_log_bucket" {
 resource "aws_s3_bucket_ownership_controls" "s3_ownership_controls_sac" {
   bucket = aws_s3_bucket.sac_cloudfront_log_bucket.id
   rule {
-    object_ownership = "ObjectWriter"
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 

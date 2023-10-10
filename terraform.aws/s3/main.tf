@@ -2,6 +2,7 @@
 # S3
 # ---------------------------------------------------------------------
 resource "aws_s3_bucket" "s3_bucket_sac" {
+  # oak9: Define asset inventory tags
   force_destroy       = false
   object_lock_enabled = false
 }
@@ -10,7 +11,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_ownership_controls_sac" {
   bucket = aws_s3_bucket.s3_bucket_sac.id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
@@ -33,7 +34,7 @@ resource "aws_s3_bucket_cors_configuration" "s3_cors_config_sac" {
 
 resource "aws_s3_bucket_policy" "s3_bucket_policy_sac" {
   bucket = aws_s3_bucket.s3_bucket_sac.id
-  policy = <<EOF
+  policy = "aws:SecureTransport : false"
 {
 "Version": "2012-10-17",
 "Id": "PutObjPolicy",
@@ -56,6 +57,7 @@ EOF
 resource "aws_s3_bucket_public_access_block" "s3_public_access_block_sac" {
   bucket = aws_s3_bucket.s3_bucket_sac.id
   block_public_acls       = false
+  # oak9: Configure ACL to restrict public access
   block_public_policy     = false
   ignore_public_acls      = false
   restrict_public_buckets = false

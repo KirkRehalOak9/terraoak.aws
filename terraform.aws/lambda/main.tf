@@ -62,6 +62,8 @@ resource "aws_lambda_layer_version" "lambda_layer" {
 # SNS
 # ---------------------------------------------------------------------
 resource "aws_sns_topic" "topic-sns" {
+  # oak9: Use customer-managed key for at-rest encryption
+  # oak9: Define asset inventory tags
   name = "user-updates-topic"
 }
 
@@ -69,6 +71,7 @@ resource "aws_sns_topic" "topic-sns" {
 # Kinesis
 # ---------------------------------------------------------------------
 resource "aws_kinesis_stream" "test_stream" {
+  # oak9: Use customer-managed key for at-rest encryption
   name             = "terraform-kinesis-test"
   shard_count      = 1
   retention_period = 48
@@ -91,6 +94,7 @@ resource "aws_kinesis_stream" "test_stream" {
 # Network
 # ---------------------------------------------------------------------
 resource "aws_security_group" "security-group-lambda" {
+  # oak9: Define asset inventory tags
   vpc_id     = aws_vpc.main.id
   egress {
     from_port        = 0
@@ -111,6 +115,7 @@ resource "aws_subnet" "test-subnet" {
 }
 
 resource "aws_vpc" "main" {
+  # oak9: Define asset inventory tags
   cidr_block = "10.0.0.0/16"
 }
 
@@ -118,6 +123,7 @@ resource "aws_vpc" "main" {
 # IAM
 # ---------------------------------------------------------------------
 resource "aws_iam_role" "lambda_role" {
+    # oak9: Define asset inventory tags
     name = "lambda_role"
     assume_role_policy = <<EOF
 {

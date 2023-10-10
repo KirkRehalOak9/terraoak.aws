@@ -2,11 +2,13 @@
 # ApiGatewayV2
 # ---------------------------------------------------------------------
 resource "aws_apigatewayv2_api" "sac_apigwv2_api" {
+  # oak9: Define asset inventory tags
   name          = "sac-testing-apigwv2-api"
   protocol_type = "HTTP"
 
   cors_configuration {
     allow_methods = ["*"]
+  # oak9: CORS configuration is allowing ['*'] requests
   }
 }
 
@@ -17,6 +19,8 @@ resource "aws_apigatewayv2_api_mapping" "api" {
 }
 
   resource "aws_apigatewayv2_domain_name" "sac_apigwv2_domain" {
+  # oak9: Enable mutual TLS authentication
+  # oak9: Define asset inventory tags
   domain_name = "acorncorp.com"
 
   domain_name_configuration {
@@ -30,11 +34,14 @@ resource "aws_apigatewayv2_integration" "sac_apigwv2_integration" {
   api_id           = aws_apigatewayv2_api.sac_apigwv2_api.id
   integration_type = "HTTP_PROXY"
   integration_method = "PATCH"
+  # oak9: API is allowing PATCH requests
   connection_type = "INTERNET"
   integration_uri = aws_lb_listener.elbv2_listener.arn
 }
 
 resource "aws_apigatewayv2_stage" "sac_apigwv2_stage" {
+  # oak9: Configure access logs for ApiGateway stage
+  # oak9: Define asset inventory tags
   api_id = aws_apigatewayv2_api.sac_apigwv2_api.id
   name   = "sac-testing-apigwv2-stage"
 }
@@ -43,6 +50,7 @@ resource "aws_apigatewayv2_route" "sac_apigwv2_route" {
   api_id    = aws_apigatewayv2_api.sac_apigwv2_api.id
   route_key = "GET /hello"
   authorization_type = "NONE"
+  # oak9: Enable authorization for API routes
   target    = "integrations/${aws_apigatewayv2_integration.sac_apigwv2_integration.id}"
 }
 
@@ -66,6 +74,8 @@ resource "aws_route53_record" "sac_route_record" {
 # ELBv2
 # ---------------------------------------------------------------------
 resource "aws_lb" "elbv2_sac" {
+  # oak9: Define a security group for ELB V2
+  # oak9: Define asset inventory tags
   name               = "elbv2-sac"
   load_balancer_type = "application"
   drop_invalid_header_fields = true
@@ -183,6 +193,7 @@ data "aws_ami" "ubuntu" {
 # IAM
 # ---------------------------------------------------------------------
 resource "aws_iam_role" "ec2_instance_role_default" {
+  # oak9: Define asset inventory tags
   name = "ec2-instance-role-default"
   path = "/"
 
@@ -207,6 +218,7 @@ EOF
 # KMS
 # ---------------------------------------------------------------------
 resource "aws_kms_key" "ec2_instance_kms_key_default" {
+  # oak9: Define asset inventory tags
   description             = "Instance-key"
   deletion_window_in_days = 10
 }
